@@ -11,6 +11,7 @@ dumppit_web/
 |-- index.html
 |-- assets/
 |   |-- dumppit-black.webp
+|   |-- dumppit-void-clean.png
 |   |-- dumppit-logo.png
 |   `-- dumppit-mark.svg
 |-- css/
@@ -24,10 +25,16 @@ dumppit_web/
 From the repository root:
 
 ```powershell
-python -m http.server 8080
+python host.py
 ```
 
-Keep that terminal open, then visit <http://localhost:8080>. Press `Ctrl+C` in the terminal to stop the server.
+The browser opens <http://localhost:8080> automatically. Keep the terminal open and press `Ctrl+C` to stop the server.
+
+To use another port or avoid opening the browser automatically:
+
+```powershell
+python host.py --port 9000 --no-browser
+```
 
 Opening `index.html` directly also works, but a local web server behaves more like real hosting.
 

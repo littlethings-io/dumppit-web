@@ -13,7 +13,7 @@
   <meta property="og:title" content="Dumppit — leave it here">
   <meta property="og:description" content="Put it into words. Dump it. When it is gone, it is gone.">
   <meta property="og:url" content="https://dumppit.com/">
-  <meta property="og:image" content="https://dumppit.com/assets/dumppit-black.webp">
+  <meta property="og:image" content="https://dumppit.com/assets/dumppit-void-clean.png">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="canonical" href="https://dumppit.com/">
@@ -21,23 +21,22 @@
   <title>Dumppit — leave it here</title>
 
   <link rel="icon" href="assets/dumppit-mark.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/dumppit-black.webp" as="image" type="image/webp">
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="js/app.js" defer></script>
+  <link rel="preload" href="assets/dumppit-void-clean.png" as="image" type="image/png">
+  <link rel="stylesheet" href="css/styles.css?v=20260817-3">
+  <script src="js/app.js?v=20260817-2" defer></script>
 </head>
 <body>
   <div class="void" aria-hidden="true">
     <img
       class="void__art"
-      src="assets/dumppit-black.webp"
-      width="1254"
-      height="1254"
+      src="assets/dumppit-void-clean.png"
+      width="1536"
+      height="1536"
       alt=""
       decoding="async"
       draggable="false"
     >
     <div class="void__depth"></div>
-    <div class="void__impact"></div>
   </div>
 
   <main class="experience">
@@ -53,33 +52,30 @@
       >
     </header>
 
-    <section class="dump-card" aria-label="Leave a dump">
+    <section class="dump-card" aria-label="Write a dump">
       <div class="dump-card__content">
         <form id="dump-form" novalidate>
-          <label class="sr-only" for="dump-text">Leave a dump</label>
-          <textarea
-            id="dump-text"
-            maxlength="600"
-            rows="4"
-            placeholder="Leave a dump..."
-            autocomplete="off"
-            autocapitalize="sentences"
-            autocorrect="off"
-            spellcheck="false"
-            data-gramm="false"
-            data-gramm_editor="false"
-          ></textarea>
+          <label class="sr-only" for="dump-text">Write a dump</label>
+          <div class="dump-field">
+            <textarea
+              id="dump-text"
+              maxlength="600"
+              rows="5"
+              autofocus
+              autocomplete="off"
+              autocapitalize="sentences"
+              autocorrect="off"
+              spellcheck="false"
+              data-gramm="false"
+              data-gramm_editor="false"
+            ></textarea>
+            <span class="dump-field__cursor" aria-hidden="true"></span>
+          </div>
 
           <button id="dump-button" class="dump-button" type="submit" disabled>
             <span class="dump-button__label">Dump</span>
-            <span class="dump-button__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" focusable="false">
-                <path d="M5 7.5h10.5M12 4l3.5 3.5L12 11M19 12a7 7 0 1 1-7-7"/>
-              </svg>
-            </span>
           </button>
         </form>
-
       </div>
     </section>
 
