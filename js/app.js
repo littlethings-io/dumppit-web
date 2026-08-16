@@ -8,7 +8,7 @@
   const card = document.querySelector(".dump-card");
   const status = document.querySelector("#dump-status");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const voidScene = window.DumppitVoid?.mount(document.querySelector("#void-canvas"));
+  const collectionScene = window.DumppitTruck?.mount(document.querySelector("#street-canvas"));
 
   let isDumping = false;
 
@@ -19,76 +19,22 @@
   };
 
   const animateDump = async (text) => {
-    const source = textarea.getBoundingClientRect();
-    const startX = source.left + source.width / 2;
-    const startY = source.top + source.height / 2;
-
-    const flight = document.createElement("p");
-    flight.className = "dump-flight";
-    flight.textContent = text;
-    flight.setAttribute("aria-hidden", "true");
-    flight.style.left = `${startX}px`;
-    flight.style.top = `${startY}px`;
-    flight.style.width = `${source.width}px`;
-    document.body.append(flight);
-
     textarea.value = "";
     textarea.disabled = true;
     updateComposer();
     card.classList.add("is-dumping");
-    buttonLabel.textContent = "Dumping";
+    buttonLabel.textContent = "On the way";
 
-    const duration = reduceMotion.matches ? 350 : 1550;
-    const keyframes = reduceMotion.matches
-      ? [
-          { opacity: 1, transform: "translate(-50%, -50%) scale(1)" },
-          { opacity: 0, transform: "translate(-50%, -50%) scale(0.8)" }
-        ]
-      : [
-          {
-            opacity: 1,
-            color: "#f4f0e8",
-            filter: "blur(0)",
-            transform: "translate(-50%, -50%) rotate(0deg) scale(1)"
-          },
-          {
-            offset: 0.3,
-            opacity: 0.94,
-            color: "#f4f0e8",
-            transform: "translate(-50%, -50%) rotate(90deg) scale(0.9)"
-          },
-          {
-            offset: 0.7,
-            opacity: 0.48,
-            color: "#d9d5ce",
-            filter: "blur(2px)",
-            transform: "translate(-50%, -50%) rotate(270deg) scale(0.32)"
-          },
-          {
-            opacity: 0,
-            filter: "blur(8px)",
-            transform: "translate(-50%, -50%) rotate(540deg) scale(0.015)"
-          }
-        ];
-
-    const animation = flight.animate(keyframes, {
-      duration,
-      easing: "cubic-bezier(0.58, 0.04, 0.36, 1)",
-      fill: "forwards"
-    });
-
-    await animation.finished.catch(() => undefined);
-    flight.remove();
-    voidScene?.absorb(text);
-
-    if (!reduceMotion.matches) {
-      await new Promise((resolve) => window.setTimeout(resolve, 640));
+    if (collectionScene) {
+      await collectionScene.collect(text);
+    } else {
+      await new Promise((resolve) => window.setTimeout(resolve, reduceMotion.matches ? 250 : 1200));
     }
 
     card.classList.remove("is-dumping");
     card.classList.add("is-returning");
-    buttonLabel.textContent = "Dump";
-    status.textContent = "Dumped. It is gone and was not saved.";
+    buttonLabel.textContent = "Call the truck";
+    status.textContent = "Collected. It is gone and was not saved.";
     textarea.disabled = false;
 
     window.setTimeout(() => {
@@ -96,7 +42,7 @@
       isDumping = false;
       updateComposer();
       textarea.focus({ preventScroll: true });
-    }, reduceMotion.matches ? 20 : 600);
+    }, reduceMotion.matches ? 20 : 700);
   };
 
   textarea.addEventListener("input", updateComposer);

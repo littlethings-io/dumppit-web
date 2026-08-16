@@ -1,8 +1,8 @@
 # Dumppit website
 
-A small static experience for `dumppit.com`: write something, dump it into the rotating void, and let it disappear.
+A small static experience for `dumppit.com`: write something, leave it at the curb, and watch the Dumppit crew take it away.
 
-The entered text exists only in memory while the dump animation and its brief canvas echo run. The site has no form submission, network request, analytics, cookies, local storage, database, account, or history.
+The entered text exists only in memory while the collection animation runs. The site has no form submission, network request, analytics, cookies, local storage, database, account, or history.
 
 ## Project structure
 
@@ -18,7 +18,7 @@ dumppit_web/
 |   `-- styles.css
 `-- js/
     |-- app.js
-    `-- void.js
+    `-- truck.js
 ```
 
 ## Preview locally
@@ -59,17 +59,12 @@ Keep the following true if the site is expanded:
 - Do not give the form an `action` URL.
 - Do not send the textarea contents through `fetch`, XHR, WebSocket, analytics, or logging.
 - Do not place the contents in cookies, `localStorage`, `sessionStorage`, or IndexedDB.
-- Remove the temporary animation element after every dump.
+- Discard the in-memory collection sequence, including its text, after every dump.
 
 The current implementation satisfies those constraints.
 
 ## Easy adjustments
 
-The main visual size is a CSS variable at the top of `css/styles.css`:
+The visual styling and form placement live in `css/styles.css`.
 
-```css
---void-size: clamp(360px, 92vmin, 980px);
---ember: #efa75d;
-```
-
-The procedural text rings and their speeds live in `js/void.js`. The dump animation and form behavior live in `js/app.js`.
+The street, garbage truck, collector, hydraulic arm, bag toss, and vacuum sequences are drawn in `js/truck.js`. The form behavior lives in `js/app.js`.

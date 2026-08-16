@@ -6,14 +6,14 @@
   <meta name="theme-color" content="#000000">
   <meta
     name="description"
-    content="Put it into words. Dump it. It is not saved anywhere."
+    content="Write it down. Leave it at the curb. The Dumppit crew takes it away, and nothing is saved."
   >
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Dumppit — leave it here">
-  <meta property="og:description" content="Put it into words. Dump it. When it is gone, it is gone.">
+  <meta property="og:description" content="Leave it at the curb. When the Dumppit crew takes it, it is gone.">
   <meta property="og:url" content="https://dumppit.com/">
-  <meta property="og:image" content="https://dumppit.com/assets/dumppit-void-clean.png">
+  <meta property="og:image" content="https://dumppit.com/assets/dumppit-logo.png">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="canonical" href="https://dumppit.com/">
@@ -21,14 +21,14 @@
   <title>Dumppit — leave it here</title>
 
   <link rel="icon" href="assets/dumppit-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=20260817-6">
-  <script src="js/void.js?v=20260817-5" defer></script>
-  <script src="js/app.js?v=20260817-4" defer></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260817-7">
+  <script src="js/truck.js?v=20260817-1" defer></script>
+  <script src="js/app.js?v=20260817-5" defer></script>
 </head>
 <body>
-  <div class="void" aria-hidden="true">
-    <canvas id="void-canvas" class="void__canvas" width="900" height="900"></canvas>
-    <div class="void__depth"></div>
+  <div class="street-scene" aria-hidden="true">
+    <canvas id="street-canvas" class="street-scene__canvas"></canvas>
+    <div class="street-scene__grain"></div>
   </div>
 
   <main class="experience">
@@ -44,10 +44,10 @@
       >
     </header>
 
-    <section class="dump-card" aria-label="Write a dump">
+    <section class="dump-card" aria-label="Write something to throw away">
       <div class="dump-card__content">
         <form id="dump-form" novalidate>
-          <label class="sr-only" for="dump-text">Write a dump</label>
+          <label class="sr-only" for="dump-text">Write something to throw away</label>
           <div class="dump-field">
             <textarea
               id="dump-text"
@@ -65,7 +65,7 @@
           </div>
 
           <button id="dump-button" class="dump-button" type="submit" disabled>
-            <span class="dump-button__label">Dump</span>
+            <span class="dump-button__label">Call the truck</span>
           </button>
         </form>
       </div>
