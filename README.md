@@ -2,7 +2,7 @@
 
 A small static experience for `dumppit.com`: write something, dump it into the rotating void, and let it disappear.
 
-The entered text exists only in the current browser tab while the animation runs. The site has no form submission, network request, analytics, cookies, local storage, database, account, or history.
+The entered text exists only in memory while the dump animation and its brief canvas echo run. The site has no form submission, network request, analytics, cookies, local storage, database, account, or history.
 
 ## Project structure
 
@@ -17,7 +17,8 @@ dumppit_web/
 |-- css/
 |   `-- styles.css
 `-- js/
-    `-- app.js
+    |-- app.js
+    `-- void.js
 ```
 
 ## Preview locally
@@ -64,12 +65,11 @@ The current implementation satisfies those constraints.
 
 ## Easy adjustments
 
-The main visual settings are CSS variables at the top of `css/styles.css`:
+The main visual size is a CSS variable at the top of `css/styles.css`:
 
 ```css
---void-size: clamp(680px, 94vmin, 1080px);
---turn-time: 80s;
+--void-size: clamp(360px, 92vmin, 980px);
 --ember: #efa75d;
 ```
 
-Lower `--turn-time` to rotate faster. The dump animation and behavior live in `js/app.js`.
+The procedural text rings and their speeds live in `js/void.js`. The dump animation and form behavior live in `js/app.js`.

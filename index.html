@@ -21,21 +21,13 @@
   <title>Dumppit — leave it here</title>
 
   <link rel="icon" href="assets/dumppit-mark.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/dumppit-void-clean.png" as="image" type="image/png">
-  <link rel="stylesheet" href="css/styles.css?v=20260817-3">
-  <script src="js/app.js?v=20260817-2" defer></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260817-6">
+  <script src="js/void.js?v=20260817-5" defer></script>
+  <script src="js/app.js?v=20260817-4" defer></script>
 </head>
 <body>
   <div class="void" aria-hidden="true">
-    <img
-      class="void__art"
-      src="assets/dumppit-void-clean.png"
-      width="1536"
-      height="1536"
-      alt=""
-      decoding="async"
-      draggable="false"
-    >
+    <canvas id="void-canvas" class="void__canvas" width="900" height="900"></canvas>
     <div class="void__depth"></div>
   </div>
 

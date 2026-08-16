@@ -6,8 +6,7 @@
   --muted-ink: #aaa39a;
   --ember: #efa75d;
   --ember-bright: #ffc27e;
-  --void-size: clamp(680px, 94vmin, 1080px);
-  --turn-time: 80s;
+  --void-size: clamp(360px, 92vmin, 980px);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--black);
 }
@@ -64,27 +63,21 @@ button {
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    transparent 0 25%,
-    rgb(0 0 0 / 8%) 42%,
-    rgb(0 0 0 / 42%) 73%,
+    transparent 0 66%,
+    rgb(0 0 0 / 10%) 76%,
+    rgb(0 0 0 / 42%) 90%,
     #000 100%
   );
   content: "";
 }
 
-.void__art {
+.void__canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: contain;
-  opacity: 0.92;
-  user-select: none;
-  backface-visibility: hidden;
-  will-change: transform, filter;
-  animation: void-spin var(--turn-time) linear infinite;
-  transition: filter 700ms ease, opacity 700ms ease;
+  opacity: 0.96;
 }
 
 .void__depth {
@@ -92,13 +85,13 @@ button {
   z-index: 3;
   top: 50%;
   left: 50%;
-  width: 31%;
+  width: 28%;
   aspect-ratio: 1;
   border-radius: 50%;
   background:
     radial-gradient(circle at 48% 45%, #050403 0, #010101 46%, #000 72%);
   box-shadow:
-    0 0 70px 35px #000,
+    0 0 58px 28px #000,
     inset 0 0 45px #000;
   opacity: 0.9;
   transform: translate(-50%, -50%);
@@ -309,15 +302,6 @@ button {
   animation: card-return 600ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-@keyframes void-spin {
-  from {
-    transform: translateZ(0) rotate(0turn) scale(1.015);
-  }
-  to {
-    transform: translateZ(0) rotate(1turn) scale(1.015);
-  }
-}
-
 @keyframes cursor-blink {
   0%, 48% {
     opacity: 1;
@@ -364,14 +348,6 @@ button {
 }
 
 @media (max-width: 560px) {
-  :root {
-    --void-size: max(820px, 180vw);
-  }
-
-  .void__art {
-    filter: brightness(1.22) contrast(1.08);
-  }
-
   .experience {
     align-items: center;
     padding-inline: 0.9rem;
@@ -403,10 +379,6 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .void__art {
-    animation-duration: 240s;
-  }
-
   .dump-field__cursor,
   .dump-card__content {
     transition-duration: 0.01ms;

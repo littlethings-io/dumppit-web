@@ -8,6 +8,7 @@
   const card = document.querySelector(".dump-card");
   const status = document.querySelector("#dump-status");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const voidScene = window.DumppitVoid?.mount(document.querySelector("#void-canvas"));
 
   let isDumping = false;
 
@@ -78,6 +79,7 @@
 
     await animation.finished.catch(() => undefined);
     flight.remove();
+    voidScene?.absorb(text);
 
     if (!reduceMotion.matches) {
       await new Promise((resolve) => window.setTimeout(resolve, 640));
