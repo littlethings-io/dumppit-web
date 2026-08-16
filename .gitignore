@@ -1,0 +1,10 @@
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Local editor settings
+.vscode/
+.idea/
+
+# Temporary browser renders
+preview-*.png
