@@ -1,0 +1,205 @@
+:root {
+  color-scheme: dark;
+  background: #0b0906;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #0b0906;
+}
+
+.front-page {
+  position: fixed;
+  isolation: isolate;
+  inset: 0;
+  overflow: hidden;
+  background: #0b0906;
+}
+
+.front-page::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -5%;
+  background: url("../assets/stall/stall-portrait.png") center / cover no-repeat;
+  filter: blur(18px) brightness(0.68) saturate(0.8);
+  transform: scale(1.08);
+}
+
+.front-page__scene {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.front-page__image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  -webkit-user-drag: none;
+  transform: scale(1.01);
+  animation: room-flicker 10s linear infinite;
+}
+
+.front-page::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 52%, rgb(0 0 0 / 23%) 100%),
+    linear-gradient(180deg, rgb(0 0 0 / 8%), transparent 22%, rgb(0 0 0 / 10%));
+}
+
+.front-page__light {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 6%,
+    rgb(255 210 137 / 13%) 0%,
+    rgb(223 153 72 / 4%) 25%,
+    transparent 53%
+  );
+  mix-blend-mode: screen;
+  animation: light-flicker 10s linear infinite;
+}
+
+.front-page__sign {
+  position: absolute;
+  z-index: 3;
+  top: 20%;
+  left: 50%;
+  width: clamp(310px, 35vw, 500px);
+  aspect-ratio: 3 / 2;
+  transform: translateX(-50%) rotate(-1.5deg);
+  transform-origin: 50% 10%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.front-page__sign-board,
+.front-page__sign-logo {
+  position: absolute;
+  display: block;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.front-page__sign-board {
+  inset: 0;
+  width: 100%;
+  filter:
+    brightness(0.82)
+    saturate(0.68)
+    drop-shadow(0 7px 7px rgb(0 0 0 / 48%));
+}
+
+.front-page__sign-logo {
+  z-index: 4;
+  top: 69%;
+  left: 50%;
+  width: 68%;
+  opacity: 0.82;
+  filter: sepia(0.42) brightness(0.88);
+  transform: translate(-50%, -50%);
+}
+
+@keyframes room-flicker {
+  0%,
+  18.1%,
+  21.2%,
+  48%,
+  67.1%,
+  69.5%,
+  100% {
+    filter: brightness(0.98);
+  }
+
+  18.5%,
+  20.1%,
+  68% {
+    filter: brightness(0.82);
+  }
+
+  19%,
+  20.6%,
+  68.6% {
+    filter: brightness(1.03);
+  }
+
+  49% {
+    filter: brightness(0.92);
+  }
+}
+
+@keyframes light-flicker {
+  0%,
+  18.1%,
+  21.2%,
+  48%,
+  67.1%,
+  69.5%,
+  100% {
+    opacity: 0.72;
+  }
+
+  18.5%,
+  20.1%,
+  68% {
+    opacity: 0.18;
+  }
+
+  19%,
+  20.6%,
+  68.6% {
+    opacity: 0.94;
+  }
+
+  49% {
+    opacity: 0.5;
+  }
+}
+
+@media (orientation: landscape) {
+  .front-page::before {
+    background-image: url("../assets/stall/stall-landscape.png");
+  }
+}
+
+@media (orientation: portrait) {
+  .front-page__sign {
+    top: 23%;
+    width: min(82vw, 390px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .front-page__image,
+  .front-page__light {
+    animation: none;
+  }
+}

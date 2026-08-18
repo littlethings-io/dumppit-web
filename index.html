@@ -3,123 +3,100 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#020202">
+  <meta name="theme-color" content="#0b0906">
   <meta
     name="description"
-    content="Feed the junk to a living void. Save whatever is still alive."
+    content="Dumppit. Leave your shit here."
   >
-  <meta name="robots" content="index, follow">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Dumppit — The Pit">
-  <meta property="og:description" content="Swipe the darkness. Feed the pit. Save the living.">
-  <meta property="og:url" content="https://dumppit.com/">
-  <meta name="twitter:card" content="summary">
 
-  <link rel="canonical" href="https://dumppit.com/">
-  <link rel="icon" href="assets/dumppit-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=20260818-7">
-  <script type="module" src="js/app.js?v=20260818-7"></script>
-
-  <title>Dumppit — The Pit</title>
+  <link rel="stylesheet" href="css/main.css">
+  <title>Dumppit</title>
 </head>
 <body>
-  <main class="app">
-    <section id="title-screen" class="title-screen" aria-label="The Pit game menu">
-      <div class="void-card">
-        <div class="void-card__grain" aria-hidden="true"></div>
-
-        <div class="menu-debris" aria-hidden="true">
-          <i class="menu-debris__item menu-debris__item--1"></i>
-          <i class="menu-debris__item menu-debris__item--2"></i>
-          <i class="menu-debris__item menu-debris__item--3"></i>
-          <i class="menu-debris__item menu-debris__item--4"></i>
-          <i class="menu-debris__item menu-debris__item--5"></i>
-          <i class="menu-debris__item menu-debris__item--6"></i>
-        </div>
-
-        <header class="void-title">
-          <p>DUMPPIT</p>
-          <h1>THE PIT</h1>
-          <span>IT IS HUNGRY</span>
-        </header>
-
-        <div class="menu-void" aria-hidden="true">
-          <span class="menu-void__ring menu-void__ring--outer"></span>
-          <span class="menu-void__ring menu-void__ring--middle"></span>
-          <span class="menu-void__ring menu-void__ring--inner"></span>
-          <span class="menu-void__mouth">
-            <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-          </span>
-        </div>
-
-        <div class="menu-actions">
-          <button id="play-button" class="void-play" type="button">FEED IT</button>
-          <p>Swipe the darkness. Move what falls.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="game-screen" class="game-screen" aria-label="The Pit game" hidden>
-      <div id="game-shell" class="game-shell">
-        <canvas
-          id="game-canvas"
-          class="game-canvas"
-          tabindex="0"
-          aria-label="Swipe near falling objects to feed junk to the pit and save living creatures"
-        ></canvas>
-
-        <div class="hud">
-          <button id="pause-button" class="hud-button" type="button" aria-label="Pause game">Ⅱ</button>
-
-          <div class="mission-panel">
-            <div class="mission-panel__heading">
-              <span>FEED THE PIT</span>
-              <strong id="time-value">0:55</strong>
-            </div>
-            <div class="pit-progress" aria-hidden="true">
-              <span id="pit-progress-fill"></span>
-            </div>
-            <div class="mission-panel__stats">
-              <span>FED <strong id="fed-value">0 / 15</strong></span>
-              <span>SOULS <strong id="souls-value">●●●</strong></span>
-            </div>
-          </div>
-
-          <div class="score-panel">
-            <span>SCORE</span>
-            <strong id="score-value">0</strong>
-          </div>
-        </div>
-
-        <p id="control-hint" class="control-hint">SWIPE NEAR AN OBJECT TO PUSH IT</p>
-
-        <div id="pause-panel" class="modal-panel" hidden>
-          <div class="modal-card">
-            <p class="modal-card__eyebrow">THE DARKNESS WAITS</p>
-            <h2>Everything has stopped falling.</h2>
-            <button id="resume-button" class="game-button" type="button">Continue</button>
-            <button class="text-button" data-menu type="button">Leave the pit</button>
-          </div>
-        </div>
-
-        <div id="result-panel" class="modal-panel" hidden>
-          <div class="modal-card modal-card--result">
-            <p id="result-eyebrow" class="modal-card__eyebrow">SATISFIED</p>
-            <h2 id="result-title">The pit is sleeping.</h2>
-            <blockquote id="pit-verdict">The pit is quiet. For now.</blockquote>
-            <p class="final-score">SCORE <strong id="final-score">0</strong></p>
-            <button id="again-button" class="game-button" type="button">Feed it again</button>
-            <button class="text-button" data-menu type="button">Leave the pit</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <p id="game-status" class="sr-only" role="status" aria-live="polite"></p>
+  <main class="front-page">
+    <picture class="front-page__scene">
+      <source
+        media="(orientation: landscape)"
+        srcset="assets/stall/stall-landscape.png"
+      >
+      <img
+        class="front-page__image"
+        src="assets/stall/stall-portrait.png"
+        alt="An old wooden toilet stall beneath a dim light"
+        draggable="false"
+        fetchpriority="high"
+      >
+    </picture>
+    <div class="front-page__sign">
+      <svg
+        class="front-page__sign-board"
+        viewBox="10 -50 1300 1024"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <defs>
+          <filter
+            id="remove-sign-white"
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            color-interpolation-filters="sRGB"
+          >
+            <feColorMatrix
+              type="matrix"
+              values="
+                1  0  0  0   0
+                0  1  0  0   0
+                0  0  1  0   0
+               -0 -5 -5  0   6
+              "
+            />
+          </filter>
+        </defs>
+        <image
+          href="assets/sign/hanging-sign.jpeg"
+          width="1536"
+          height="1024"
+          filter="url(#remove-sign-white)"
+        />
+      </svg>
+      <svg
+        class="front-page__sign-logo"
+        viewBox="-100 -250 1536 1024"
+        role="img"
+        aria-label="Dumppit"
+        focusable="false"
+      >
+        <defs>
+          <filter
+            id="remove-logo-black"
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            color-interpolation-filters="sRGB"
+          >
+            <feColorMatrix
+              type="matrix"
+              values="
+                1 0 0 0  0
+                0 1 0 0  0
+                0 0 1 0  0
+                5 5 5 0 -0.6
+              "
+            />
+          </filter>
+        </defs>
+        <image
+          href="assets/logo/dumppit-logo.jpeg"
+          width="1536"
+          height="1024"
+          filter="url(#remove-logo-black)"
+        />
+      </svg>
+    </div>
+    <span class="front-page__light" aria-hidden="true"></span>
   </main>
-
-  <noscript>
-    <p class="noscript-message">The pit cannot wake without JavaScript.</p>
-  </noscript>
 </body>
 </html>
