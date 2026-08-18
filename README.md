@@ -1,27 +1,10 @@
-# Dumppit website
+# Dumppit: Larry's Route
 
-A small static experience for `dumppit.com`: write something, leave it at the curb, and watch the Dumppit crew take it away.
+A small browser game starring Larry, Dumppit's grumpiest garbage collector.
 
-The entered text exists only in memory while the collection animation runs. The site has no form submission, network request, analytics, cookies, local storage, database, account, or history.
+Catch ordinary trash in Larry's bin and avoid hazards. Clean the street before Larry loses all three patience points, and the Dumppit truck arrives to throw Larry and his bin into the compactor before finishing the route.
 
-## Project structure
-
-```text
-dumppit_web/
-|-- index.html
-|-- assets/
-|   |-- dumppit-black.webp
-|   |-- dumppit-void-clean.png
-|   |-- dumppit-logo.png
-|   `-- dumppit-mark.svg
-|-- css/
-|   `-- styles.css
-`-- js/
-    |-- app.js
-    `-- truck.js
-```
-
-## Preview locally
+## Run locally
 
 From the repository root:
 
@@ -29,42 +12,52 @@ From the repository root:
 python host.py
 ```
 
-The browser opens <http://localhost:8080> automatically. Keep the terminal open and press `Ctrl+C` to stop the server.
+The browser opens <http://localhost:8080>. Press `Ctrl+C` in the terminal to stop the server.
 
-To use another port or avoid opening the browser automatically:
+To choose a different port or avoid opening a browser automatically:
 
 ```powershell
 python host.py --port 9000 --no-browser
 ```
 
-Opening `index.html` directly also works, but a local web server behaves more like real hosting.
+## Controls
 
-## Publish
+- Desktop: `Left Arrow` / `Right Arrow` or `A` / `D`.
+- Phone and tablet: touch Larry and drag him left or right.
+- Catch 12 ordinary pieces of trash to win.
+- Missing ordinary trash costs one patience point.
+- Catching a bowling ball, toxic bag, dead fish, bricks, or barrel costs one patience point.
 
-This project has no build step. Upload the contents of this repository to the document root for `dumppit.com` using any static host.
+## Project structure
 
-The host only needs to serve:
+```text
+dumppit_web/
+|-- index.html
+|-- host.py
+|-- assets/
+|   `-- game/
+|       |-- title-screen.jpg
+|       |-- dumppit-truck-keyed.png
+|       |-- larry-run-sheet.jpg
+|       |-- trash-sheet.jpg
+|       |-- street-city.jpg
+|       |-- street-alley.jpg
+|       |-- street-homes.jpg
+|       |-- street-industrial.jpg
+|       `-- gameplay-reference.jpg
+|-- css/
+|   `-- styles.css
+`-- js/
+    |-- app.js
+    `-- game/
+        |-- assets.js
+        `-- game.js
+```
 
-- `index.html`
-- `assets/`
-- `css/`
-- `js/`
+`assets.js` loads the supplied JPEG sprite sheets and finale truck. It removes the sprite sheets' connected black backgrounds and the truck's magenta key background in memory without modifying the original artwork.
 
-Enable HTTPS on the host. No backend or database is required.
+`game.js` contains movement, collision detection, scoring, Larry's remarks, falling objects, and the winning truck sequence. `app.js` connects the game to the title screen, HUD, pause menu, and result screen.
 
-## Privacy guarantee
+## Publishing
 
-Keep the following true if the site is expanded:
-
-- Do not give the form an `action` URL.
-- Do not send the textarea contents through `fetch`, XHR, WebSocket, analytics, or logging.
-- Do not place the contents in cookies, `localStorage`, `sessionStorage`, or IndexedDB.
-- Discard the in-memory collection sequence, including its text, after every dump.
-
-The current implementation satisfies those constraints.
-
-## Easy adjustments
-
-The visual styling and form placement live in `css/styles.css`.
-
-The street, garbage truck, collector, hydraulic arm, bag toss, and vacuum sequences are drawn in `js/truck.js`. The form behavior lives in `js/app.js`.
+There is no build step and no backend. Upload the repository's web files to any static host with HTTPS enabled.

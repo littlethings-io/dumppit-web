@@ -2,80 +2,110 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#000000">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#087ce8">
   <meta
     name="description"
-    content="Write it down. Leave it at the curb. The Dumppit crew takes it away, and nothing is saved."
+    content="Help Larry, Dumppit's grumpiest garbage collector, clean the street."
   >
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Dumppit — leave it here">
-  <meta property="og:description" content="Leave it at the curb. When the Dumppit crew takes it, it is gone.">
+  <meta property="og:title" content="Dumppit — Larry's route">
+  <meta property="og:description" content="Catch the trash. Dodge the hazards. Try not to annoy Larry.">
   <meta property="og:url" content="https://dumppit.com/">
-  <meta property="og:image" content="https://dumppit.com/assets/dumppit-logo.png">
+  <meta property="og:image" content="https://dumppit.com/assets/game/title-screen.jpg">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="canonical" href="https://dumppit.com/">
-
-  <title>Dumppit — leave it here</title>
-
   <link rel="icon" href="assets/dumppit-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=20260817-7">
-  <script src="js/truck.js?v=20260817-1" defer></script>
-  <script src="js/app.js?v=20260817-5" defer></script>
+  <link rel="preload" href="assets/game/title-screen.jpg" as="image" type="image/jpeg">
+  <link rel="stylesheet" href="css/styles.css?v=20260818-1">
+  <script type="module" src="js/app.js?v=20260818-5"></script>
+
+  <title>Dumppit — Larry's route</title>
 </head>
 <body>
-  <div class="street-scene" aria-hidden="true">
-    <canvas id="street-canvas" class="street-scene__canvas"></canvas>
-    <div class="street-scene__grain"></div>
-  </div>
-
-  <main class="experience">
-    <header class="brand">
-      <img
-        class="brand__logo"
-        src="assets/dumppit-logo.png"
-        width="1536"
-        height="1024"
-        alt="Dumppit"
-        decoding="async"
-        draggable="false"
-      >
-    </header>
-
-    <section class="dump-card" aria-label="Write something to throw away">
-      <div class="dump-card__content">
-        <form id="dump-form" novalidate>
-          <label class="sr-only" for="dump-text">Write something to throw away</label>
-          <div class="dump-field">
-            <textarea
-              id="dump-text"
-              maxlength="600"
-              rows="5"
-              autofocus
-              autocomplete="off"
-              autocapitalize="sentences"
-              autocorrect="off"
-              spellcheck="false"
-              data-gramm="false"
-              data-gramm_editor="false"
-            ></textarea>
-            <span class="dump-field__cursor" aria-hidden="true"></span>
-          </div>
-
-          <button id="dump-button" class="dump-button" type="submit" disabled>
-            <span class="dump-button__label">Call the truck</span>
-          </button>
-        </form>
+  <main class="app">
+    <section id="title-screen" class="title-screen" aria-label="Dumppit game menu">
+      <div class="title-card">
+        <img
+          class="title-card__art"
+          src="assets/game/title-screen.jpg"
+          width="941"
+          height="1672"
+          alt="Larry leaning against the Dumppit garbage truck"
+          draggable="false"
+        >
+        <button id="play-button" class="play-hotspot" type="button" disabled>
+          <span class="sr-only">Play Dumppit</span>
+        </button>
+        <p id="loading-label" class="loading-label">Waking Larry up…</p>
       </div>
     </section>
 
-    <p id="dump-status" class="sr-only" role="status" aria-live="polite"></p>
+    <section id="game-screen" class="game-screen" aria-label="Dumppit game" hidden>
+      <div id="game-shell" class="game-shell">
+        <canvas
+          id="game-canvas"
+          class="game-canvas"
+          tabindex="0"
+          aria-label="Move Larry left and right to catch trash in his bin"
+        ></canvas>
+
+        <div class="hud">
+          <button id="pause-button" class="hud-button hud-button--pause" type="button" aria-label="Pause game">Ⅱ</button>
+
+          <div class="level-panel">
+            <span class="level-panel__label">LEVEL 1</span>
+            <div class="route-progress">
+              <span class="route-progress__truck">🚛</span>
+              <span class="route-progress__track">
+                <span id="route-progress-fill" class="route-progress__fill"></span>
+              </span>
+              <span class="route-progress__finish" aria-hidden="true"></span>
+            </div>
+          </div>
+
+          <div class="score-panel">
+            <span>SCORE</span>
+            <strong id="score-value">0</strong>
+          </div>
+
+          <div class="lives-panel">
+            <span id="lives-value">● ● ●</span>
+            <small>LARRY'S PATIENCE</small>
+          </div>
+        </div>
+
+        <p id="control-hint" class="control-hint">← → MOVE LARRY</p>
+
+        <div id="pause-panel" class="modal-panel" hidden>
+          <div class="modal-card">
+            <p class="modal-card__eyebrow">UNION BREAK</p>
+            <h2>Larry is waiting.</h2>
+            <button id="resume-button" class="game-button" type="button">Resume</button>
+            <button class="text-button" data-menu type="button">Back to menu</button>
+          </div>
+        </div>
+
+        <div id="result-panel" class="modal-panel" hidden>
+          <div class="modal-card modal-card--result">
+            <p id="result-eyebrow" class="modal-card__eyebrow">ROUTE COMPLETE</p>
+            <h2 id="result-title">Street cleaned!</h2>
+            <blockquote id="larry-verdict">“Not completely terrible.”</blockquote>
+            <p class="final-score">Score <strong id="final-score">0</strong></p>
+            <button id="again-button" class="game-button" type="button">Play again</button>
+            <button class="text-button" data-menu type="button">Back to menu</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p id="game-status" class="sr-only" role="status" aria-live="polite"></p>
   </main>
 
   <noscript>
-    <p class="noscript-message">Dumppit needs JavaScript to make your words disappear.</p>
+    <p class="noscript-message">Larry refuses to work without JavaScript.</p>
   </noscript>
 </body>
 </html>
