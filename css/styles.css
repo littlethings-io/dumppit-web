@@ -296,15 +296,21 @@ button {
   position: absolute;
   top: 4.25rem;
   right: 0;
+  min-width: 5.2rem;
+  border: 2px solid rgb(255 255 255 / 24%);
+  border-radius: 0.75rem;
+  background: rgb(4 24 42 / 70%);
+  padding: 0.28rem 0.55rem 0.34rem;
   color: #ffcf26;
-  text-align: right;
+  text-align: center;
   text-shadow: 0 2px 2px rgb(0 0 0 / 80%);
 }
 
 .lives-panel span {
   display: block;
   font-size: 1.05rem;
-  letter-spacing: 0.15em;
+  font-weight: 1000;
+  letter-spacing: 0.04em;
 }
 
 .lives-panel small {

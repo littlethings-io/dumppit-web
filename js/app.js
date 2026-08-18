@@ -1,5 +1,5 @@
-import { loadGameAssets } from "./game/assets.js?v=20260818-5";
-import { LarryGame } from "./game/game.js?v=20260818-5";
+import { loadGameAssets } from "./game/assets.js?v=20260818-6";
+import { TruckPackerGame } from "./game/packer.js?v=20260818-1";
 
 const titleScreen = document.querySelector("#title-screen");
 const gameScreen = document.querySelector("#game-screen");
@@ -17,18 +17,17 @@ const larryVerdict = document.querySelector("#larry-verdict");
 const finalScore = document.querySelector("#final-score");
 const againButton = document.querySelector("#again-button");
 const scoreValue = document.querySelector("#score-value");
-const livesValue = document.querySelector("#lives-value");
+const linesValue = document.querySelector("#lines-value");
 const routeProgressFill = document.querySelector("#route-progress-fill");
 const controlHint = document.querySelector("#control-hint");
 const gameStatus = document.querySelector("#game-status");
-const coarsePointer = window.matchMedia("(pointer: coarse)");
 
 let game = null;
 
-const setHud = ({ score, caught, goal, lives }) => {
+const setHud = ({ score, cleared, goal }) => {
   scoreValue.textContent = String(score);
-  livesValue.textContent = `${"● ".repeat(Math.max(0, lives))}${"○ ".repeat(Math.max(0, 3 - lives))}`.trim();
-  routeProgressFill.style.width = `${Math.min(100, (caught / goal) * 100)}%`;
+  linesValue.textContent = `${Math.min(cleared, goal)} / ${goal}`;
+  routeProgressFill.style.width = `${Math.min(100, (cleared / goal) * 100)}%`;
 };
 
 const setPaused = (paused) => {
@@ -45,17 +44,15 @@ const setPaused = (paused) => {
 
 const showResult = ({ won, score, verdict }) => {
   pauseButton.disabled = true;
-  resultEyebrow.textContent = won ? "ROUTE COMPLETE" : "ROUTE FAILED";
-  resultTitle.textContent = won ? "Street cleaned!" : "Larry is not impressed.";
+  resultEyebrow.textContent = won ? "TRUCK PACKED" : "NO ROOM LEFT";
+  resultTitle.textContent = won ? "Load secured!" : "The truck is jammed.";
   larryVerdict.textContent = `“${verdict}”`;
   finalScore.textContent = String(score);
   resultPanel.hidden = false;
   againButton.focus({ preventScroll: true });
-  gameStatus.textContent = won ? "You cleaned the street." : "Larry lost his patience.";
-};
-
-const updateControlHint = () => {
-  controlHint.textContent = coarsePointer.matches ? "DRAG LARRY WITH YOUR FINGER" : "← → MOVE LARRY";
+  gameStatus.textContent = won
+    ? "The truck is packed and the route is complete."
+    : "No remaining garbage cluster fits in the truck.";
 };
 
 const startRound = () => {
@@ -68,7 +65,6 @@ const startRound = () => {
   pausePanel.hidden = true;
   pauseButton.disabled = false;
   controlHint.classList.remove("is-hidden");
-  updateControlHint();
 
   game.resize();
   game.start();
@@ -85,11 +81,9 @@ const returnToMenu = () => {
 };
 
 const initialise = async () => {
-  updateControlHint();
-
   try {
     const assets = await loadGameAssets();
-    game = new LarryGame(canvas, assets, {
+    game = new TruckPackerGame(canvas, assets, {
       onHud: setHud,
       onPause: setPaused,
       onFinish: showResult,
@@ -106,15 +100,13 @@ const initialise = async () => {
     if (preview === "game" || preview === "win") {
       startRound();
       if (preview === "game") {
-        game.previewItems();
+        game.previewBoard();
       } else {
         game.forceWin();
-        const requestedProgress = Number.parseFloat(new URLSearchParams(window.location.search).get("progress"));
-        game.previewFinale(Number.isFinite(requestedProgress) ? requestedProgress : undefined);
       }
     }
   } catch (error) {
-    loadingLabel.textContent = "Larry lost the art files";
+    loadingLabel.textContent = "The compactor lost its art files";
     gameStatus.textContent = error instanceof Error ? error.message : "The game could not load.";
   }
 };
@@ -133,5 +125,4 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
-coarsePointer.addEventListener("change", updateControlHint);
 void initialise();
