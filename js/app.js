@@ -1,33 +1,41 @@
-import { loadGameAssets } from "./game/assets.js?v=20260818-6";
-import { TruckPackerGame } from "./game/packer.js?v=20260818-1";
+import { PitGame } from "./game/pit.js?v=20260818-1";
 
 const titleScreen = document.querySelector("#title-screen");
 const gameScreen = document.querySelector("#game-screen");
 const gameShell = document.querySelector("#game-shell");
 const canvas = document.querySelector("#game-canvas");
 const playButton = document.querySelector("#play-button");
-const loadingLabel = document.querySelector("#loading-label");
 const pauseButton = document.querySelector("#pause-button");
 const pausePanel = document.querySelector("#pause-panel");
 const resumeButton = document.querySelector("#resume-button");
 const resultPanel = document.querySelector("#result-panel");
 const resultEyebrow = document.querySelector("#result-eyebrow");
 const resultTitle = document.querySelector("#result-title");
-const larryVerdict = document.querySelector("#larry-verdict");
+const pitVerdict = document.querySelector("#pit-verdict");
 const finalScore = document.querySelector("#final-score");
 const againButton = document.querySelector("#again-button");
 const scoreValue = document.querySelector("#score-value");
-const linesValue = document.querySelector("#lines-value");
-const routeProgressFill = document.querySelector("#route-progress-fill");
+const fedValue = document.querySelector("#fed-value");
+const soulsValue = document.querySelector("#souls-value");
+const timeValue = document.querySelector("#time-value");
+const pitProgressFill = document.querySelector("#pit-progress-fill");
 const controlHint = document.querySelector("#control-hint");
 const gameStatus = document.querySelector("#game-status");
 
 let game = null;
 
-const setHud = ({ score, cleared, goal }) => {
+const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainder = String(seconds % 60).padStart(2, "0");
+  return `${minutes}:${remainder}`;
+};
+
+const setHud = ({ score, fed, goal, souls, time }) => {
   scoreValue.textContent = String(score);
-  linesValue.textContent = `${Math.min(cleared, goal)} / ${goal}`;
-  routeProgressFill.style.width = `${Math.min(100, (cleared / goal) * 100)}%`;
+  fedValue.textContent = `${Math.min(fed, goal)} / ${goal}`;
+  soulsValue.textContent = `${"●".repeat(souls)}${"○".repeat(Math.max(0, 3 - souls))}`;
+  timeValue.textContent = formatTime(time);
+  pitProgressFill.style.width = `${Math.min(100, (fed / goal) * 100)}%`;
 };
 
 const setPaused = (paused) => {
@@ -44,15 +52,13 @@ const setPaused = (paused) => {
 
 const showResult = ({ won, score, verdict }) => {
   pauseButton.disabled = true;
-  resultEyebrow.textContent = won ? "TRUCK PACKED" : "NO ROOM LEFT";
-  resultTitle.textContent = won ? "Load secured!" : "The truck is jammed.";
-  larryVerdict.textContent = `“${verdict}”`;
+  resultEyebrow.textContent = won ? "SATISFIED" : "UNFINISHED";
+  resultTitle.textContent = won ? "The pit is sleeping." : "It remains hungry.";
+  pitVerdict.textContent = verdict;
   finalScore.textContent = String(score);
   resultPanel.hidden = false;
   againButton.focus({ preventScroll: true });
-  gameStatus.textContent = won
-    ? "The truck is packed and the route is complete."
-    : "No remaining garbage cluster fits in the truck.";
+  gameStatus.textContent = won ? "The pit has been fed." : "The run has ended.";
 };
 
 const startRound = () => {
@@ -80,34 +86,27 @@ const returnToMenu = () => {
   playButton.focus({ preventScroll: true });
 };
 
-const initialise = async () => {
-  try {
-    const assets = await loadGameAssets();
-    game = new TruckPackerGame(canvas, assets, {
-      onHud: setHud,
-      onPause: setPaused,
-      onFinish: showResult,
-      onControl: (used) => controlHint.classList.toggle("is-hidden", used),
-      onStatus: (message) => {
-        gameStatus.textContent = message;
-      }
-    });
-
-    playButton.disabled = false;
-    loadingLabel.hidden = true;
-
-    const preview = new URLSearchParams(window.location.search).get("preview");
-    if (preview === "game" || preview === "win") {
-      startRound();
-      if (preview === "game") {
-        game.previewBoard();
-      } else {
-        game.forceWin();
-      }
+const initialise = () => {
+  game = new PitGame(canvas, {
+    onHud: setHud,
+    onPause: setPaused,
+    onFinish: showResult,
+    onControl: (used) => controlHint.classList.toggle("is-hidden", used),
+    onStatus: (message) => {
+      gameStatus.textContent = message;
     }
-  } catch (error) {
-    loadingLabel.textContent = "The compactor lost its art files";
-    gameStatus.textContent = error instanceof Error ? error.message : "The game could not load.";
+  });
+
+  const preview = new URLSearchParams(window.location.search).get("preview");
+  if (preview === "game" || preview === "win" || preview === "loss") {
+    startRound();
+    if (preview === "game") {
+      game.previewWorld();
+    } else if (preview === "win") {
+      game.forceWin();
+    } else {
+      game.forceLoss();
+    }
   }
 };
 
@@ -125,4 +124,4 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
-void initialise();
+initialise();

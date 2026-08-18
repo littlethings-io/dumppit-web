@@ -3,66 +3,85 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#087ce8">
+  <meta name="theme-color" content="#020202">
   <meta
     name="description"
-    content="Pack Larry's garbage truck, crush complete lines, and leave no trash behind."
+    content="Feed the junk to a living void. Save whatever is still alive."
   >
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Dumppit — Pack the Truck">
-  <meta property="og:description" content="Fit garbage into the truck and crush complete rows and columns.">
+  <meta property="og:title" content="Dumppit — The Pit">
+  <meta property="og:description" content="Swipe the darkness. Feed the pit. Save the living.">
   <meta property="og:url" content="https://dumppit.com/">
-  <meta property="og:image" content="https://dumppit.com/assets/game/title-screen.jpg">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="summary">
 
   <link rel="canonical" href="https://dumppit.com/">
   <link rel="icon" href="assets/dumppit-mark.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/game/title-screen.jpg" as="image" type="image/jpeg">
-  <link rel="stylesheet" href="css/styles.css?v=20260818-6">
-  <script type="module" src="js/app.js?v=20260818-6"></script>
+  <link rel="stylesheet" href="css/styles.css?v=20260818-7">
+  <script type="module" src="js/app.js?v=20260818-7"></script>
 
-  <title>Dumppit — Pack the Truck</title>
+  <title>Dumppit — The Pit</title>
 </head>
 <body>
   <main class="app">
-    <section id="title-screen" class="title-screen" aria-label="Dumppit game menu">
-      <div class="title-card">
-        <img
-          class="title-card__art"
-          src="assets/game/title-screen.jpg"
-          width="941"
-          height="1672"
-          alt="Larry leaning against the Dumppit garbage truck"
-          draggable="false"
-        >
-        <button id="play-button" class="play-hotspot" type="button" disabled>
-          <span class="sr-only">Play Dumppit</span>
-        </button>
-        <p id="loading-label" class="loading-label">Starting the compactor…</p>
+    <section id="title-screen" class="title-screen" aria-label="The Pit game menu">
+      <div class="void-card">
+        <div class="void-card__grain" aria-hidden="true"></div>
+
+        <div class="menu-debris" aria-hidden="true">
+          <i class="menu-debris__item menu-debris__item--1"></i>
+          <i class="menu-debris__item menu-debris__item--2"></i>
+          <i class="menu-debris__item menu-debris__item--3"></i>
+          <i class="menu-debris__item menu-debris__item--4"></i>
+          <i class="menu-debris__item menu-debris__item--5"></i>
+          <i class="menu-debris__item menu-debris__item--6"></i>
+        </div>
+
+        <header class="void-title">
+          <p>DUMPPIT</p>
+          <h1>THE PIT</h1>
+          <span>IT IS HUNGRY</span>
+        </header>
+
+        <div class="menu-void" aria-hidden="true">
+          <span class="menu-void__ring menu-void__ring--outer"></span>
+          <span class="menu-void__ring menu-void__ring--middle"></span>
+          <span class="menu-void__ring menu-void__ring--inner"></span>
+          <span class="menu-void__mouth">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </span>
+        </div>
+
+        <div class="menu-actions">
+          <button id="play-button" class="void-play" type="button">FEED IT</button>
+          <p>Swipe the darkness. Move what falls.</p>
+        </div>
       </div>
     </section>
 
-    <section id="game-screen" class="game-screen" aria-label="Dumppit game" hidden>
+    <section id="game-screen" class="game-screen" aria-label="The Pit game" hidden>
       <div id="game-shell" class="game-shell">
         <canvas
           id="game-canvas"
           class="game-canvas"
           tabindex="0"
-          aria-label="Drag garbage shapes into the truck and complete rows or columns"
+          aria-label="Swipe near falling objects to feed junk to the pit and save living creatures"
         ></canvas>
 
         <div class="hud">
-          <button id="pause-button" class="hud-button hud-button--pause" type="button" aria-label="Pause game">Ⅱ</button>
+          <button id="pause-button" class="hud-button" type="button" aria-label="Pause game">Ⅱ</button>
 
-          <div class="level-panel">
-            <span class="level-panel__label">PACK THE TRUCK</span>
-            <div class="route-progress">
-              <span class="route-progress__truck" aria-hidden="true">▰</span>
-              <span class="route-progress__track">
-                <span id="route-progress-fill" class="route-progress__fill"></span>
-              </span>
-              <span class="route-progress__finish" aria-hidden="true"></span>
+          <div class="mission-panel">
+            <div class="mission-panel__heading">
+              <span>FEED THE PIT</span>
+              <strong id="time-value">0:55</strong>
+            </div>
+            <div class="pit-progress" aria-hidden="true">
+              <span id="pit-progress-fill"></span>
+            </div>
+            <div class="mission-panel__stats">
+              <span>FED <strong id="fed-value">0 / 15</strong></span>
+              <span>SOULS <strong id="souls-value">●●●</strong></span>
             </div>
           </div>
 
@@ -70,32 +89,27 @@
             <span>SCORE</span>
             <strong id="score-value">0</strong>
           </div>
-
-          <div class="lives-panel lines-panel">
-            <span id="lines-value">0 / 8</span>
-            <small>LINES CRUSHED</small>
-          </div>
         </div>
 
-        <p id="control-hint" class="control-hint">DRAG GARBAGE INTO THE TRUCK</p>
+        <p id="control-hint" class="control-hint">SWIPE NEAR AN OBJECT TO PUSH IT</p>
 
         <div id="pause-panel" class="modal-panel" hidden>
           <div class="modal-card">
-            <p class="modal-card__eyebrow">COMPACTOR STOPPED</p>
-            <h2>The route is waiting.</h2>
-            <button id="resume-button" class="game-button" type="button">Resume</button>
-            <button class="text-button" data-menu type="button">Back to menu</button>
+            <p class="modal-card__eyebrow">THE DARKNESS WAITS</p>
+            <h2>Everything has stopped falling.</h2>
+            <button id="resume-button" class="game-button" type="button">Continue</button>
+            <button class="text-button" data-menu type="button">Leave the pit</button>
           </div>
         </div>
 
         <div id="result-panel" class="modal-panel" hidden>
           <div class="modal-card modal-card--result">
-            <p id="result-eyebrow" class="modal-card__eyebrow">TRUCK PACKED</p>
-            <h2 id="result-title">Load secured!</h2>
-            <blockquote id="larry-verdict">“Not completely terrible.”</blockquote>
-            <p class="final-score">Score <strong id="final-score">0</strong></p>
-            <button id="again-button" class="game-button" type="button">Play again</button>
-            <button class="text-button" data-menu type="button">Back to menu</button>
+            <p id="result-eyebrow" class="modal-card__eyebrow">SATISFIED</p>
+            <h2 id="result-title">The pit is sleeping.</h2>
+            <blockquote id="pit-verdict">The pit is quiet. For now.</blockquote>
+            <p class="final-score">SCORE <strong id="final-score">0</strong></p>
+            <button id="again-button" class="game-button" type="button">Feed it again</button>
+            <button class="text-button" data-menu type="button">Leave the pit</button>
           </div>
         </div>
       </div>
@@ -105,7 +119,7 @@
   </main>
 
   <noscript>
-    <p class="noscript-message">The compactor needs JavaScript.</p>
+    <p class="noscript-message">The pit cannot wake without JavaScript.</p>
   </noscript>
 </body>
 </html>
